@@ -6,6 +6,86 @@
     <title>Negative0's Realm</title>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- Add Cabin font -->
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: 'Cabin', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #comment-form {
+            margin-top: 20px;
+        }
+
+        #comment-text {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #comment-form button {
+            background-color: #222;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #comments-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment {
+            margin-bottom: 10px;
+        }
+
+        .comment p {
+            margin: 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
 
@@ -25,23 +105,28 @@
 
 <main>
     <section id="home">
-        <!-- Content for home section -->
+        <h2>Welcome to Negative0's Realm</h2>
+        <p>This is the homepage of Negative0, where creativity meets mystery.</p>
     </section>
 
     <section id="about">
-        <!-- Content for about section -->
+        <h2>About Negative0</h2>
+        <p>Placeholder for about section content.</p>
     </section>
 
     <section id="portfolio">
-        <!-- Content for portfolio section -->
+        <h2>Portfolio</h2>
+        <p>Placeholder for portfolio section content.</p>
     </section>
 
     <section id="blog">
-        <!-- Content for blog section -->
+        <h2>Blog</h2>
+        <p>Placeholder for blog section content.</p>
     </section>
 
     <section id="music">
-        <!-- Content for music section -->
+        <h2>Music</h2>
+        <p>Placeholder for music section content.</p>
     </section>
 
     <section id="comments">
@@ -62,6 +147,37 @@
 
 <!-- Scripts for comments functionality -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
-<script src="comments.js"></script> <!-- JavaScript for comments functionality -->
+<script>
+    // Function to load comments from server
+    function loadComments() {
+        $.ajax({
+            url: 'load_comments.php', // Replace with your server-side script URL
+            type: 'GET',
+            success: function(data) {
+                $('#comments-container').html(data);
+            }
+        });
+    }
+
+    // Load comments on page load
+    $(document).ready(function() {
+        loadComments();
+    });
+
+    // Submit comment via AJAX
+    $('#comment-form').submit(function(e) {
+        e.preventDefault();
+        var commentText = $('#comment-text').val();
+        $.ajax({
+            url: 'submit_comment.php', // Replace with your server-side script URL
+            type: 'POST',
+            data: { comment: commentText },
+            success: function() {
+                $('#comment-text').val('');
+                loadComments(); // Reload comments after submitting
+            }
+        });
+    });
+</script>
 </body>
 </html>
